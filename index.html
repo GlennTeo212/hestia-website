@@ -362,6 +362,22 @@
             color: var(--accent);
         }
 
+        /* Project Gallery */
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .project-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
         /* Services Section */
         .services {
             padding: 150px 0;
@@ -603,65 +619,19 @@
             </div>
             <div class="portfolio-grid">
                 <div class="portfolio-item" data-index="0">
-                    <img src="projects/photo-1.jpg" alt="Project 1">
-                    <div class="portfolio-info">
-                        <h3>Modern Living</h3>
-                        <p>Residential</p>
+                    <div class="project-gallery">
+                        <img src="projects/photo-1.jpg" alt="Project 1">
+                        <img src="projects/photo-2.jpg" alt="Project 2">
+                        <img src="projects/photo-3.jpg" alt="Project 3">
+                        <img src="projects/photo-4.jpg" alt="Project 4">
+                        <img src="projects/photo-5.jpg" alt="Project 5">
+                        <img src="projects/photo-6.jpg" alt="Project 6">
+                        <img src="projects/photo-7.jpg" alt="Project 7">
+                        <img src="projects/photo-8.jpg" alt="Project 8">
+                        <img src="projects/photo-9.jpg" alt="Project 9">
                     </div>
-                </div>
-                <div class="portfolio-item" data-index="1">
-                    <img src="projects/photo-2.jpg" alt="Project 2">
                     <div class="portfolio-info">
-                        <h3>Elegant Bedroom</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="2">
-                    <img src="projects/photo-3.jpg" alt="Project 3">
-                    <div class="portfolio-info">
-                        <h3>Kitchen Design</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="3">
-                    <img src="projects/photo-4.jpg" alt="Project 4">
-                    <div class="portfolio-info">
-                        <h3>Minimalist Space</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="4">
-                    <img src="projects/photo-5.jpg" alt="Project 5">
-                    <div class="portfolio-info">
-                        <h3>Contemporary</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="5">
-                    <img src="projects/photo-6.jpg" alt="Project 6">
-                    <div class="portfolio-info">
-                        <h3>Luxury Interiors</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="6">
-                    <img src="projects/photo-7.jpg" alt="Project 7">
-                    <div class="portfolio-info">
-                        <h3>Open Plan</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="7">
-                    <img src="projects/photo-8.jpg" alt="Project 8">
-                    <div class="portfolio-info">
-                        <h3>Modern Dining</h3>
-                        <p>Residential</p>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-index="8">
-                    <img src="projects/photo-9.jpg" alt="Project 9">
-                    <div class="portfolio-info">
-                        <h3>Designer Space</h3>
+                        <h3>Featured Projects</h3>
                         <p>Residential</p>
                     </div>
                 </div>
