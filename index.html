@@ -362,9 +362,11 @@
             color: var(--accent);
         }
 
-        /* Project Gallery */
+        /* Project Gallery Grid (3x3) */
         .project-gallery {
-            position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             width: 100%;
             height: 100%;
         }
@@ -374,43 +376,78 @@
             height: 100%;
             object-fit: cover;
             border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        .gallery-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background 0.3s ease;
+        .project-gallery img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Fullscreen Gallery */
+        .fullscreen-gallery {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+        }
+
+        .fullscreen-gallery.active {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .gallery-nav:hover {
+        .fullscreen-gallery img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .fullscreen-gallery .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: background 0.3s ease;
+        }
+
+        .fullscreen-gallery .gallery-nav:hover {
             background: var(--accent);
         }
 
-        .gallery-prev { left: 10px; }
-        .gallery-next { right: 10px; }
+        .fullscreen-gallery .gallery-prev { left: 20px; }
+        .fullscreen-gallery .gallery-next { right: 20px; }
 
-        .gallery-counter {
+        .fullscreen-gallery .gallery-counter {
             position: absolute;
-            bottom: 15px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
-            color: var(--text-secondary);
-            background: rgba(0,0,0,0.5);
-            padding: 5px 12px;
-            border-radius: 15px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .fullscreen-gallery .gallery-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
         }
 
         /* Services Section */
@@ -664,9 +701,6 @@
                         <img src="projects/photo-7.jpg" alt="Project 7">
                         <img src="projects/photo-8.jpg" alt="Project 8">
                         <img src="projects/photo-9.jpg" alt="Project 9">
-                        <button class="gallery-nav gallery-prev">‹</button>
-                        <button class="gallery-nav gallery-next">›</button>
-                        <div class="gallery-counter">1 / 9</div>
                     </div>
                     <div class="portfolio-info">
                         <h3>Duta Tropika</h3>
@@ -778,34 +812,73 @@
             });
         });
 
-        // Gallery navigation
-        const gallery = document.querySelector('.project-gallery');
-        const galleryImages = gallery.querySelectorAll('img');
-        const prevBtn = gallery.querySelector('.gallery-prev');
-        const nextBtn = gallery.querySelector('.gallery-next');
-        const counter = gallery.querySelector('.gallery-counter');
-        let currentIndex = 0;
+        // Gallery navigation - fullscreen
+        const fullscreenGallery = document.getElementById('fullscreenGallery');
+        const galleryThumbnails = document.querySelector('.project-gallery');
+        const fullscreenImg = fullscreenGallery.querySelector('img');
+        const galleryClose = fullscreenGallery.querySelector('.gallery-close');
+        const fsPrevBtn = fullscreenGallery.querySelector('.gallery-prev');
+        const fsNextBtn = fullscreenGallery.querySelector('.gallery-next');
+        const fsCounter = fullscreenGallery.querySelector('.gallery-counter');
+        
+        // All 18 photos
+        const allPhotos = [
+            'projects/photo-1.jpg', 'projects/photo-2.jpg', 'projects/photo-3.jpg',
+            'projects/photo-4.jpg', 'projects/photo-5.jpg', 'projects/photo-6.jpg',
+            'projects/photo-7.jpg', 'projects/photo-8.jpg', 'projects/photo-9.jpg',
+            'projects/photo-10.jpg', 'projects/photo-11.jpg', 'projects/photo-12.jpg',
+            'projects/photo-13.jpg', 'projects/photo-14.jpg', 'projects/photo-15.jpg',
+            'projects/photo-16.jpg', 'projects/photo-17.jpg', 'projects/photo-18.jpg'
+        ];
+        
+        let fsCurrentIndex = 0;
 
-        function showImage(index) {
-            galleryImages.forEach((img, i) => {
-                img.style.display = i === index ? 'block' : 'none';
-            });
-            counter.textContent = `${index + 1} / ${galleryImages.length}`;
+        function openFullscreen(index) {
+            fsCurrentIndex = index;
+            updateFullscreenImage();
+            fullscreenGallery.classList.add('active');
         }
 
-        showImage(currentIndex);
+        function updateFullscreenImage() {
+            fullscreenImg.src = allPhotos[fsCurrentIndex];
+            fsCounter.textContent = `${fsCurrentIndex + 1} / ${allPhotos.length}`;
+        }
 
-        prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-            showImage(currentIndex);
+        // Click on thumbnail to open fullscreen
+        galleryThumbnails.querySelectorAll('img').forEach((img, i) => {
+            img.addEventListener('click', () => openFullscreen(i));
         });
 
-        nextBtn.addEventListener('click', (e) => {
+        fsPrevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            currentIndex = (currentIndex + 1) % galleryImages.length;
-            showImage(currentIndex);
+            fsCurrentIndex = (fsCurrentIndex - 1 + allPhotos.length) % allPhotos.length;
+            updateFullscreenImage();
+        });
+
+        fsNextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fsCurrentIndex = (fsCurrentIndex + 1) % allPhotos.length;
+            updateFullscreenImage();
+        });
+
+        galleryClose.addEventListener('click', () => {
+            fullscreenGallery.classList.remove('active');
+        });
+
+        fullscreenGallery.addEventListener('click', (e) => {
+            if (e.target === fullscreenGallery) {
+                fullscreenGallery.classList.remove('active');
+            }
         });
     </script>
+    <!-- Fullscreen Gallery -->
+    <div class="fullscreen-gallery" id="fullscreenGallery">
+        <button class="gallery-close">×</button>
+        <button class="gallery-nav gallery-prev">‹</button>
+        <img src="" alt="">
+        <button class="gallery-nav gallery-next">›</button>
+        <div class="gallery-counter">1 / 18</div>
+    </div>
+
 </body>
 </html>
