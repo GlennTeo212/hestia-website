@@ -784,81 +784,6 @@
         });
 
         // Gallery navigation - fullscreen
-        const fsOldGallery = document.getElementById('fsOldGallery');
-        const gThumbs = document.querySelector('.project-gallery');
-        const fsOldImg = fsOldGallery.querySelector('img');
-        const fsOldClose = fsOldGallery.querySelector('.gallery-close');
-        const fsOldPrev = fsOldGallery.querySelector('.gallery-prev');
-        const fsOldNext = fsOldGallery.querySelector('.gallery-next');
-        const fsOldCounter = fsOldGallery.querySelector('.gallery-counter');
-        
-        // All 18 photos
-        const oldPhotos = [
-            'projects/photo-1.jpg', 'projects/photo-2.jpg', 'projects/photo-3.jpg',
-            'projects/photo-4.jpg', 'projects/photo-5.jpg', 'projects/photo-6.jpg',
-            'projects/photo-7.jpg', 'projects/photo-8.jpg', 'projects/photo-9.jpg',
-            'projects/photo-10.jpg', 'projects/photo-11.jpg', 'projects/photo-12.jpg',
-            'projects/photo-13.jpg', 'projects/photo-14.jpg', 'projects/photo-15.jpg',
-            'projects/photo-16.jpg', 'projects/photo-17.jpg', 'projects/photo-18.jpg'
-        ];
-        
-        let oldIdx = 0;
-
-        function openFullscreen(index) {
-            oldIdx = index;
-            updateFullscreenImage();
-            fsOldGallery.classList.add(.oldActive');
-        }
-
-        function updateFullscreenImage() {
-            fsOldImg.src = oldPhotos[oldIdx];
-            fsOldCounter.textContent = `${oldIdx + 1} / ${oldPhotos.length}`;
-        }
-
-        // Click on thumbnail to open fullscreen
-        gThumbs.querySelectorAll('img').forEach((img, i) => {
-            img.addEventListener('click', () => openFullscreen(i));
-        });
-
-        fsOldPrev.addEventListener('click', (e) => {
-            e.stopPropagation();
-            oldIdx = (oldIdx - 1 + oldPhotos.length) % oldPhotos.length;
-            updateFullscreenImage();
-        });
-
-        fsOldNext.addEventListener('click', (e) => {
-            e.stopPropagation();
-            oldIdx = (oldIdx + 1) % oldPhotos.length;
-            updateFullscreenImage();
-        });
-
-        fsOldClose.addEventListener('click', () => {
-            fsOldGallery.classList.remove(.oldActive');
-        });
-
-        fsOldGallery.addEventListener('click', (e) => {
-            if (e.target === fsOldGallery) {
-                fsOldGallery.classList.remove(.oldActive');
-            }
-        });
-    </script>
-    <!-- Fullscreen Gallery -->
-    <div class="fs-old-gallery" id="fsOldGallery">
-        <button class="gallery-close">×</button>
-        <button class="gallery-nav gallery-prev">‹</button>
-        <img src="" alt="">
-        <button class="gallery-nav gallery-next">›</button>
-        <div class="gallery-counter">1 / 18</div>
-    </div>
-
-    <!-- Fullscreen Gallery -->
-    <div class="fs-gallery" id="fsGallery">
-        <button class="fs-close" id="fsClose">×</button>
-        <button class="fs-btn fs-prev" id="fsPrev">‹</button>
-        <img id="fsImg" src="" alt="">
-        <button class="fs-btn fs-next" id="fsNext">›</button>
-        <div class="fs-counter" id="fsOldCounter">1 / 18</div>
-    </div>
 
     <script>
         // Fullscreen Gallery
@@ -867,7 +792,7 @@
         const fsClose = document.getElementById('fsClose');
         const fsPrev = document.getElementById('fsPrev');
         const fsNext = document.getElementById('fsNext');
-        const fsOldCounter = document.getElementById('fsOldCounter');
+        const fsCounter = document.getElementById('fsCounter');
 
         const photos = [
             'projects/photo-1.jpg','projects/photo-2.jpg','projects/photo-3.jpg',
@@ -882,7 +807,7 @@
         function showPhoto(i) {
             idx = i;
             fsImg.src = photos[idx];
-            fsOldCounter.textContent = (idx + 1) + ' / ' + photos.length;
+            fsCounter.textContent = (idx + 1) + ' / ' + photos.length;
         }
 
         // Click thumbnail to open
@@ -896,5 +821,13 @@
         fsClose.onclick = function() { fsGallery.classList.remove('open'); };
         fsGallery.onclick = function(e) { if(e.target === fsGallery) fsGallery.classList.remove('open'); };
     </script>
+    <!-- Fullscreen Gallery -->
+    <div class="fs-gallery" id="fsGallery">
+        <button class="fs-close" id="fsClose">×</button>
+        <button class="fs-btn fs-prev" id="fsPrev">‹</button>
+        <img id="fsImg" src="" alt="">
+        <button class="fs-btn fs-next" id="fsNext">›</button>
+        <div class="fs-counter" id="fsCounter">1 / 18</div>
+    </div>
 </body>
 </html>
