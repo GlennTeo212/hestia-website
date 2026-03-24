@@ -384,72 +384,6 @@
             transform: scale(1.02);
         }
 
-        /* Fullscreen Gallery */
-        .fullscreen-gallery {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 2000;
-        }
-
-        .fullscreen-gallery.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .fullscreen-gallery img {
-            max-width: 90%;
-            max-height: 85vh;
-            object-fit: contain;
-        }
-
-        .fullscreen-gallery .gallery-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            transition: background 0.3s ease;
-        }
-
-        .fullscreen-gallery .gallery-nav:hover {
-            background: var(--accent);
-        }
-
-        .fullscreen-gallery .gallery-prev { left: 20px; }
-        .fullscreen-gallery .gallery-next { right: 20px; }
-
-        .fullscreen-gallery .gallery-counter {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            color: #fff;
-        }
-
-        .fullscreen-gallery .gallery-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 30px;
-            cursor: pointer;
-        }
-
         /* Services Section */
         .services {
             padding: 150px 0;
@@ -579,7 +513,7 @@
             transition: all 0.4s ease;
         }
 
-        .lightbox.active {
+        .lightbox.oldActive {
             opacity: 1;
             visibility: visible;
         }
@@ -850,16 +784,16 @@
         });
 
         // Gallery navigation - fullscreen
-        const fullscreenGallery = document.getElementById('fullscreenGallery');
-        const galleryThumbnails = document.querySelector('.project-gallery');
-        const fullscreenImg = fullscreenGallery.querySelector('img');
-        const galleryClose = fullscreenGallery.querySelector('.gallery-close');
-        const fsPrevBtn = fullscreenGallery.querySelector('.gallery-prev');
-        const fsNextBtn = fullscreenGallery.querySelector('.gallery-next');
-        const fsCounter = fullscreenGallery.querySelector('.gallery-counter');
+        const fsOldGallery = document.getElementById('fsOldGallery');
+        const gThumbs = document.querySelector('.project-gallery');
+        const fsOldImg = fsOldGallery.querySelector('img');
+        const fsOldClose = fsOldGallery.querySelector('.gallery-close');
+        const fsOldPrev = fsOldGallery.querySelector('.gallery-prev');
+        const fsOldNext = fsOldGallery.querySelector('.gallery-next');
+        const fsOldCounter = fsOldGallery.querySelector('.gallery-counter');
         
         // All 18 photos
-        const allPhotos = [
+        const oldPhotos = [
             'projects/photo-1.jpg', 'projects/photo-2.jpg', 'projects/photo-3.jpg',
             'projects/photo-4.jpg', 'projects/photo-5.jpg', 'projects/photo-6.jpg',
             'projects/photo-7.jpg', 'projects/photo-8.jpg', 'projects/photo-9.jpg',
@@ -868,48 +802,48 @@
             'projects/photo-16.jpg', 'projects/photo-17.jpg', 'projects/photo-18.jpg'
         ];
         
-        let fsCurrentIndex = 0;
+        let oldIdx = 0;
 
         function openFullscreen(index) {
-            fsCurrentIndex = index;
+            oldIdx = index;
             updateFullscreenImage();
-            fullscreenGallery.classList.add('active');
+            fsOldGallery.classList.add(.oldActive');
         }
 
         function updateFullscreenImage() {
-            fullscreenImg.src = allPhotos[fsCurrentIndex];
-            fsCounter.textContent = `${fsCurrentIndex + 1} / ${allPhotos.length}`;
+            fsOldImg.src = oldPhotos[oldIdx];
+            fsOldCounter.textContent = `${oldIdx + 1} / ${oldPhotos.length}`;
         }
 
         // Click on thumbnail to open fullscreen
-        galleryThumbnails.querySelectorAll('img').forEach((img, i) => {
+        gThumbs.querySelectorAll('img').forEach((img, i) => {
             img.addEventListener('click', () => openFullscreen(i));
         });
 
-        fsPrevBtn.addEventListener('click', (e) => {
+        fsOldPrev.addEventListener('click', (e) => {
             e.stopPropagation();
-            fsCurrentIndex = (fsCurrentIndex - 1 + allPhotos.length) % allPhotos.length;
+            oldIdx = (oldIdx - 1 + oldPhotos.length) % oldPhotos.length;
             updateFullscreenImage();
         });
 
-        fsNextBtn.addEventListener('click', (e) => {
+        fsOldNext.addEventListener('click', (e) => {
             e.stopPropagation();
-            fsCurrentIndex = (fsCurrentIndex + 1) % allPhotos.length;
+            oldIdx = (oldIdx + 1) % oldPhotos.length;
             updateFullscreenImage();
         });
 
-        galleryClose.addEventListener('click', () => {
-            fullscreenGallery.classList.remove('active');
+        fsOldClose.addEventListener('click', () => {
+            fsOldGallery.classList.remove(.oldActive');
         });
 
-        fullscreenGallery.addEventListener('click', (e) => {
-            if (e.target === fullscreenGallery) {
-                fullscreenGallery.classList.remove('active');
+        fsOldGallery.addEventListener('click', (e) => {
+            if (e.target === fsOldGallery) {
+                fsOldGallery.classList.remove(.oldActive');
             }
         });
     </script>
     <!-- Fullscreen Gallery -->
-    <div class="fullscreen-gallery" id="fullscreenGallery">
+    <div class="fs-old-gallery" id="fsOldGallery">
         <button class="gallery-close">×</button>
         <button class="gallery-nav gallery-prev">‹</button>
         <img src="" alt="">
@@ -923,7 +857,7 @@
         <button class="fs-btn fs-prev" id="fsPrev">‹</button>
         <img id="fsImg" src="" alt="">
         <button class="fs-btn fs-next" id="fsNext">›</button>
-        <div class="fs-counter" id="fsCounter">1 / 18</div>
+        <div class="fs-counter" id="fsOldCounter">1 / 18</div>
     </div>
 
     <script>
@@ -933,7 +867,7 @@
         const fsClose = document.getElementById('fsClose');
         const fsPrev = document.getElementById('fsPrev');
         const fsNext = document.getElementById('fsNext');
-        const fsCounter = document.getElementById('fsCounter');
+        const fsOldCounter = document.getElementById('fsOldCounter');
 
         const photos = [
             'projects/photo-1.jpg','projects/photo-2.jpg','projects/photo-3.jpg',
@@ -948,7 +882,7 @@
         function showPhoto(i) {
             idx = i;
             fsImg.src = photos[idx];
-            fsCounter.textContent = (idx + 1) + ' / ' + photos.length;
+            fsOldCounter.textContent = (idx + 1) + ' / ' + photos.length;
         }
 
         // Click thumbnail to open
