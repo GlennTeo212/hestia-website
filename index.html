@@ -622,6 +622,58 @@
             .about-stats { grid-template-columns: 1fr; gap: 30px; }
             footer .container { flex-direction: column; gap: 20px; text-align: center; }
         }
+
+        /* Fullscreen Gallery */
+        .fs-gallery {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .fs-gallery.open { display: flex; }
+        .fs-gallery img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+        .fs-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            font-size: 40px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .fs-btn:hover { background: rgba(201,169,98,0.8); }
+        .fs-prev { left: 20px; }
+        .fs-next { right: 20px; }
+        .fs-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .fs-counter {
+            position: absolute;
+            bottom: 20px;
+            color: #fff;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -865,5 +917,50 @@
         <div class="gallery-counter">1 / 18</div>
     </div>
 
+    <!-- Fullscreen Gallery -->
+    <div class="fs-gallery" id="fsGallery">
+        <button class="fs-close" id="fsClose">×</button>
+        <button class="fs-btn fs-prev" id="fsPrev">‹</button>
+        <img id="fsImg" src="" alt="">
+        <button class="fs-btn fs-next" id="fsNext">›</button>
+        <div class="fs-counter" id="fsCounter">1 / 18</div>
+    </div>
+
+    <script>
+        // Fullscreen Gallery
+        const fsGallery = document.getElementById('fsGallery');
+        const fsImg = document.getElementById('fsImg');
+        const fsClose = document.getElementById('fsClose');
+        const fsPrev = document.getElementById('fsPrev');
+        const fsNext = document.getElementById('fsNext');
+        const fsCounter = document.getElementById('fsCounter');
+
+        const photos = [
+            'projects/photo-1.jpg','projects/photo-2.jpg','projects/photo-3.jpg',
+            'projects/photo-4.jpg','projects/photo-5.jpg','projects/photo-6.jpg',
+            'projects/photo-7.jpg','projects/photo-8.jpg','projects/photo-9.jpg',
+            'projects/photo-10.jpg','projects/photo-11.jpg','projects/photo-12.jpg',
+            'projects/photo-13.jpg','projects/photo-14.jpg','projects/photo-15.jpg',
+            'projects/photo-16.jpg','projects/photo-17.jpg','projects/photo-18.jpg'
+        ];
+        let idx = 0;
+
+        function showPhoto(i) {
+            idx = i;
+            fsImg.src = photos[idx];
+            fsCounter.textContent = (idx + 1) + ' / ' + photos.length;
+        }
+
+        // Click thumbnail to open
+        document.querySelectorAll('.project-gallery img').forEach((img, i) => {
+            img.style.cursor = 'pointer';
+            img.onclick = function() { showPhoto(i); fsGallery.classList.add('open'); };
+        });
+
+        fsPrev.onclick = function(e) { e.stopPropagation(); showPhoto((idx - 1 + photos.length) % photos.length); };
+        fsNext.onclick = function(e) { e.stopPropagation(); showPhoto((idx + 1) % photos.length); };
+        fsClose.onclick = function() { fsGallery.classList.remove('open'); };
+        fsGallery.onclick = function(e) { if(e.target === fsGallery) fsGallery.classList.remove('open'); };
+    </script>
 </body>
 </html>
