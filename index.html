@@ -784,22 +784,7 @@
             }
         });
 
-        // Lightbox functionality
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = lightbox.querySelector('img');
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-        portfolioItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const img = item.querySelector('img');
-                lightboxImg.src = img.src;
-                lightbox.classList.add('active');
-            });
-        });
-
-        lightbox.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
+        // Lightbox - removed, using fullscreen gallery instead
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
