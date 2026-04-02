@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+"""Gemini CLI - Call Gemini 2.5 from command line"""
+
+import argparse
+import os
+import sys
+from google import genai
+
+# Load API key from env or TOOLS.md
+API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyDYjGOVeBHMkuIqXEPO_DoausZQqJTiYLE")
+
+DEFAULT_MODEL = "gemini-2.5-flash"
+
+def main():
+    parser = argparse.ArgumentParser(description="Call Gemini 2.5 from CLI")
+    parser.add_argument("prompt", nargs="?", help="Prompt to send")
+    parser.add_argument("-m", "--model", default=DEFAULT_MODEL, help="Model to use")
+    parser.add_argument("-f", "--file", help="Read prompt from file")
+    parser.add_argument("-o", "--output", help="Save response to file")
+    parser.add_argument("-i", "--interactive", action="store_true", help="Interactive mode")
+    args = parser.parse_args()
+
+    client = genai.Client(api_key=API_KEY)
+
+    # Get prompt
+    if args.interactive:
+        print("🤖 Gemini CLI (type 'exit' to quit)")
+        print(f"Using model: {args.model}\n")
+        while True:
+            try:
+                prompt = input("You: ")
+                if prompt.lower() in ("exit", "quit"):
+                    break
+                response = client.models.generate_content(
+                    model=args.model,
+                    contents=prompt
+                )
+                print(f"\nGemini: {response.text}\n")
+            except KeyboardInterrupt:
+                break
+        return
+
+    if args.file:
+        with open(args.file, "r") as f:
+            prompt = f.read()
+    elif args.prompt:
+        prompt = args.prompt
+    else:
+        parser.print_help()
+        return
+
+    response = client.models.generate_content(
+        model=args.model,
+        contents=prompt
+    )
+
+    if args.output:
+        with open(args.output, "w") as f:
+            f.write(response.text)
+        print(f"Response saved to: {args.output}")
+    else:
+        print(response.text)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+"""Image analyzer using Gemini 2.5 Flash Image"""
+
+import argparse
+import os
+from google import genai
+
+API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyDYjGOVeBHMkuIqXEPO_DoausZQqJTiYLE")
+
+def main():
+    parser = argparse.ArgumentParser(description="Analyze images with Gemini 2.5 Flash")
+    parser.add_argument("image", help="Path to image file")
+    parser.add_argument("prompt", nargs="?", default="Describe this image in detail")
+    args = parser.parse_args()
+
+    client = genai.Client(api_key=API_KEY)
+    
+    # Upload and analyze
+    uploaded = client.files.upload(file=args.image)
+    
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[uploaded, args.prompt]
+    )
+    
+    print(response.text)
+
+if __name__ == "__main__":
+    main()

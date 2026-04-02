@@ -1,0 +1,6 @@
+#!/bin/bash
+# GIMP CLI wrapper
+
+cd /Users/leyiteo/.openclaw/workspace/CLI-Anything/gimp/agent-harness
+export PYTHONPATH="$PWD:$PYTHONPATH"
+python3 cli_anything/gimp/gimp_cli.py "$@"

@@ -1,0 +1,167 @@
+{
+  "prompt_id": "wan-i2v-workflow",
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [100, 100],
+      "size": [315, 270],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "image",
+            "config": [
+              "COMBO",
+              {
+                "values": [
+                  "PHOTO-2026-03-06-10-07-59.jpg",
+                  "PHOTO-2026-03-06-10-07-59 10.jpg",
+                  "PHOTO-2026-03-06-10-07-59 11.jpg",
+                  "PHOTO-2026-03-06-10-07-59 12.jpg",
+                  "PHOTO-2026-03-06-10-07-59 13.jpg",
+                  "PHOTO-2026-03-06-10-07-59 14.jpg",
+                  "PHOTO-2026-03-06-10-07-59 15.jpg",
+                  "PHOTO-2026-03-06-10-07-59 16.jpg",
+                  "PHOTO-2026-03-06-10-07-59 17.jpg",
+                  "PHOTO-2026-03-06-10-07-59 18.jpg",
+                  "PHOTO-2026-03-06-10-07-59 2.jpg",
+                  "PHOTO-2026-03-06-10-07-59 3.jpg",
+                  "PHOTO-2026-03-06-10-07-59 4.jpg",
+                  "PHOTO-2026-03-06-10-07-59 5.jpg",
+                  "PHOTO-2026-03-06-10-07-59 6.jpg",
+                  "PHOTO-2026-03-06-10-07-59 7.jpg",
+                  "PHOTO-2026-03-06-10-07-59 8.jpg",
+                  "PHOTO-2026-03-06-10-07-59 9.jpg"
+                ],
+                "multiselect": false
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [2]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "PHOTO-2026-03-06-10-07-59.jpg"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "WanImageToVideoApi",
+      "pos": [500, 100],
+      "size": [700, 580],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [3]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "WanImageToVideoApi"
+      },
+      "widgets_values": [
+        "wan2.6-i2v",
+        "A person walking through a modern interior space, smooth camera movement",
+        "",
+        "720P",
+        5,
+        0,
+        true,
+        false,
+        "single"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "SaveVideo",
+      "pos": [1300, 100],
+      "size": [315, 270],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 3
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "prompt",
+            "config": [
+              "STRING",
+              {
+                "multiline": true
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      2,
+      1,
+      0,
+      "IMAGE",
+      "IMAGE"
+    ],
+    [
+      3,
+      2,
+      0,
+      "VIDEO",
+      "VIDEO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1,
+      "offset": [0, 0]
+    }
+  },
+  "version": 0.4
+}

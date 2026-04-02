@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "find-skills": {
+      "version": "0.1.0",
+      "installedAt": 1773419041276
+    },
+    "quickbooks-online": {
+      "version": "1.0.2",
+      "installedAt": 1773419281310
+    }
+  }
+}
